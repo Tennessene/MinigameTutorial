@@ -1,0 +1,9 @@
+name: MinigameTutorial
+main: io.github.davidm98.minigametutorial.MinigameTutorial
+version: 1.0
+author: Awesome90
+commands:
+    arena:
+        description: The command that allows a player to join or leave an arena as well as checking the id of an arena.
+    kit:
+        description: The command that allows a player to choose a kit.
