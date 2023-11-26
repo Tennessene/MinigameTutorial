@@ -1,6 +1,6 @@
 name: MinigameTutorial
 main: io.github.davidm98.minigametutorial.MinigameTutorial
-version: 1.0
+version: '${version}'
 author: Awesome90
 commands:
     arena:
