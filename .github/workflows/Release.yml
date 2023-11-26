@@ -39,8 +39,13 @@ jobs:
         id: previous_version
         run: |
           prev_version=$(git describe --tags $(git rev-list --tags --max-count=1))
+          if [[ $prev_version != *"v"* ]]; then
+            prev_version="Unversioned"
+            echo "There was no previous version!"
+          else
+            echo "The previous version was $prev_version"
+          fi
           echo "prev_version=$prev_version" >> $GITHUB_OUTPUT
-          echo "The previous version was $prev_version"
 
       - name: Check if version has changed
         id: version_changed
