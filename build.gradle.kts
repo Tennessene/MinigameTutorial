@@ -1,24 +1,18 @@
 plugins {
-    id 'java'
+    id ("java")
 }
 
-group = 'io.github.davidm98'
-version = '1.0'
+group = "io.github.davidm98"
+version = "1.0"
 
 repositories {
     mavenCentral()
-    maven {
-        name = "spigotmc-repo"
-        url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"
-    }
-    maven {
-        name = "sonatype"
-        url = "https://oss.sonatype.org/content/groups/public/"
-    }
+    mavenLocal()
+    maven { url = uri("https://hub.spigotmc.org/nexus/content/groups/public/") }
 }
 
 dependencies {
-    compileOnly "org.spigotmc:spigot-api:1.20.2-R0.1-SNAPSHOT"
+    compileOnly("org.spigotmc:spigot-api:1.20.2-R0.1-SNAPSHOT")
 }
 
 java {
