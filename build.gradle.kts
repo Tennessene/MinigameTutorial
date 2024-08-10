@@ -1,5 +1,5 @@
 plugins {
-    id ("java")
+    id("java")
 }
 
 group = "io.github.davidm98"
@@ -7,33 +7,37 @@ version = "1.0"
 
 repositories {
     mavenCentral()
-    mavenLocal()
-    maven { url = uri("https://hub.spigotmc.org/nexus/content/groups/public/") }
+    maven {
+        name = "spigotmc-repo"
+        url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
+    }
+    maven {
+        name = "sonatype"
+        url = uri("https://oss.sonatype.org/content/groups/public/")
+    }
 }
 
 dependencies {
-    compileOnly("org.spigotmc:spigot-api:1.20.2-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc:spigot-api:1.21.1-R0.1-SNAPSHOT")
 }
 
+val targetJavaVersion = 21
 java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
-}
-
-tasks {
-    compileJava {
-        // Set the release flag. This configures what version bytecode the compiler will emit, as well as what JDK APIs are usable.
-        // See https://openjdk.java.net/jeps/247 for more information.
-        options.release.set(21)
-    }
-
-    register("printVersion") {
-        doLast {
-            // Assuming 'project' is an instance of Project
-            println(project.version)
-        }
+    val javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion.set(JavaLanguageVersion.of(targetJavaVersion))
     }
 }
 
+tasks.withType<JavaCompile>().configureEach {
+    options.encoding = "UTF-8"
+
+    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible) {
+        options.release.set(targetJavaVersion)
+    }
+}
 
 tasks.processResources {
     val props = mapOf("version" to version)
